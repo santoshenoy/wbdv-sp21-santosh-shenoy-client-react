@@ -1,6 +1,7 @@
 import React from "react";
 //import thumbnail from "./static/grid_thumbnail.svg";
 import image from "../images/bootstrap-logo.png";
+import {Link} from "react-router-dom";
 
 class CourseCard extends React.Component {
     saveCourse = async () => {
@@ -26,7 +27,11 @@ class CourseCard extends React.Component {
 
                     </span>
                     <figcaption className="figure-caption text-left">
-                        <input value={this.state.course.title}
+                        {!this.state.editing && <Link to="/courses/editor" className="">
+                            <i className="fa fa-book mr-3 text-primary"></i>
+                            {this.state.course.title}
+                        </Link> }
+                        {this.state.editing && <input value={this.state.course.title}
                                onKeyPress={(event) => {
                                    if (event.key === 'Enter') {
                                        this.saveCourse();
@@ -49,7 +54,7 @@ class CourseCard extends React.Component {
                                }}
                                type='text' className={this.state.editing ? 'form-control'
                             : 'form-control-plaintext wbdv-clickable wbdv-cut-text'}
-                               readOnly={!this.state.editing}/>
+                               readOnly={!this.state.editing}/>}
                         <span>
                             <div
                                 className='wbdv-cut-text'>Modified: {this.state.course.last_modified}</div>

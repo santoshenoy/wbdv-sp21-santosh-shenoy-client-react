@@ -85,34 +85,59 @@ class CourseManager extends React.Component {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
-                    <div className="col-1" style={{color: 'white'}}>
-                        <i className="fas fa-bars fa-2x"></i>
-                    </div>
-                    &nbsp; &nbsp; &nbsp;
-                    <a className="navbar-brand" href="#">Course Manager</a>
-                    <div>
-                    <input className="form-control mr-sm-2" type="text" placeholder="New Course Title" className=" form-control mr-sm-2 wbdv-field wbdv-new-course"
-                           onChange={this.updateInput}
-                           value={this.state.newCourseTitle}
-                           onKeyPress={(event) => {
-                               if (event.key === 'Enter') {
-                                   this.props.add(this.state.newCourseTitle);
-                                   this.state.newCourseTitle = ''
-                               }
-                           }}/>
-                    </div>
-                    <div className="col-1" style={{color: '#ff0000'}}>
-                        <button className="btn btn-success ml-2" type="submit" onClick={() => {
-                            this.addCourse(this.state.newCourseTitle)
-                            this.state.newCourseTitle = ''
-                        }}>Add</button>
-                    </div>
-                </nav>
+
                 <Route path={'/courses/table'}>
+                    <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
+                        <div className="col-1" style={{color: 'white'}}>
+                            <i className="fas fa-bars fa-2x"></i>
+                        </div>
+                        &nbsp; &nbsp; &nbsp;
+                        <a className="navbar-brand" href="#">Course Manager</a>
+                        <div>
+                            <input className="form-control mr-sm-2" type="text" placeholder="New Course Title" className=" form-control mr-sm-2 wbdv-field wbdv-new-course"
+                                   onChange={this.updateInput}
+                                   value={this.state.newCourseTitle}
+                                   onKeyPress={(event) => {
+                                       if (event.key === 'Enter') {
+                                           this.props.add(this.state.newCourseTitle);
+                                           this.state.newCourseTitle = ''
+                                       }
+                                   }}/>
+                        </div>
+                        <div className="col-1" style={{color: '#ff0000'}}>
+                            <button className="btn btn-success ml-2" type="submit" onClick={() => {
+                                this.addCourse(this.state.newCourseTitle)
+                                this.state.newCourseTitle = ''
+                            }}>Add</button>
+                        </div>
+                    </nav>
                     <CourseTable courses={this.state.courses} updateCourse={this.updateCourse} deleteCourse={this.deleteCourse} formatDate={this.formatDate}/>
                 </Route>
                 <Route path={'/courses/grid'}>
+                    <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
+                        <div className="col-1" style={{color: 'white'}}>
+                            <i className="fas fa-bars fa-2x"></i>
+                        </div>
+                        &nbsp; &nbsp; &nbsp;
+                        <a className="navbar-brand" href="#">Course Manager</a>
+                        <div>
+                            <input className="form-control mr-sm-2" type="text" placeholder="New Course Title" className=" form-control mr-sm-2 wbdv-field wbdv-new-course"
+                                   onChange={this.updateInput}
+                                   value={this.state.newCourseTitle}
+                                   onKeyPress={(event) => {
+                                       if (event.key === 'Enter') {
+                                           this.props.add(this.state.newCourseTitle);
+                                           this.state.newCourseTitle = ''
+                                       }
+                                   }}/>
+                        </div>
+                        <div className="col-1" style={{color: '#ff0000'}}>
+                            <button className="btn btn-success ml-2" type="submit" onClick={() => {
+                                this.addCourse(this.state.newCourseTitle)
+                                this.state.newCourseTitle = ''
+                            }}>Add</button>
+                        </div>
+                    </nav>
                     <div className="row yz-sticky-nav-bar">
                         <div className="col-1" id="hamburger">
                         </div>
@@ -122,6 +147,7 @@ class CourseManager extends React.Component {
                         <div className="col-6">
                         </div>
                         <div className="col-1" id="plus-icon1">
+                            <button type="button"><i className="fa fa-folder"></i></button>
                             <Link to="/courses/table"
                                   className="btn">
                                 <i className="fas fa-th fa-lg float-right wbdv-button wbdv-grid-layout"/>

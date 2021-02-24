@@ -15,8 +15,6 @@ class CourseRow extends React.Component {
     render() {
         return (
             <tr className={`wbdv-row wbdv-course ${this.state.editing ? 'wbdv-highlight' : ''}`}>
-                <td className="align-middle wbdv-row wbdv-icon"><i
-                    className="fas fa-book"/></td>
                 <td className="align-middle wbdv-row wbdv-title">
                     {!this.state.editing && <Link to="/courses/editor" className="">
                         <i className="fa fa-book mr-3 text-primary"></i>
