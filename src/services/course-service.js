@@ -1,4 +1,4 @@
-const API_URL = "https://wbdv-generic-server.herokuapp.com/api/jannunzi/courses"
+const API_URL = "https://wbdv-generic-server.herokuapp.com/api/001344420/courses"
 export const updateCourse = async (courseId, course) => {
     const response = await fetch(`${API_URL}/${courseId}`, {
         method: 'PUT',

@@ -1,25 +1,21 @@
-import React from 'react'
+import React from "react";
 import CourseCard from "./course-card";
-import {Link} from "react-router-dom";
 
-
-const CourseGrid = ({courses, deleteCourse}) =>
-    <div>
-        <Link to="/courses/table">
-            <i className="fas fa-list fa-2x float-right"></i>
-        </Link>
-        <h2>Course Grid {courses.length}</h2>
-        <div className="row">
+const CourseGrid = ({courses, deleteCourse, updateCourse, formatDate, history}) =>
+    <div className="container">
+        <div className="row text-center">
             {
-                courses.map((course, ndx) =>
-                    <CourseCard
+                courses.map(function (course) {
+                    return <CourseCard
+                        history = {history}
                         deleteCourse={deleteCourse}
-                        key = {ndx}
-                        course={course}/>
-                )
+                        updateCourse = {updateCourse}
+                        key={course._id}
+                        course={course}
+                        formatDate={formatDate}/>
+                })
             }
         </div>
-    </div>
-
+    </div>;
 
 export default CourseGrid

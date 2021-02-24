@@ -1,22 +1,80 @@
-import React from 'react'
-import {Link} from "react-router-dom";
+import React from "react";
+//import thumbnail from "./static/grid_thumbnail.svg";
+import image from "../images/bootstrap-logo.png";
 
+class CourseCard extends React.Component {
+    saveCourse = async () => {
+        await this.props.updateCourse(this.state.course._id, this.state.course);
+        this.setState({editing: false});
+    };
 
-const CourseCard = ({course, deleteCourse}) =>
-    <div className="col-4">
-        <div className="card">
-            <div className="card-body">
-                <h5 className="card-title">{course.title}</h5>
-                <p className="card-text">
-                    Some quick example text to build on the card title and make up
-                    the bulk of the card's content.
-                </p>
-                <Link to="/courses/editor" className="btn btn-primary">
-                    {course.title}
-                </Link>
-                <i onClick={() => deleteCourse(course)} className="fas fa-trash"></i>
+    state = {
+        editing: false,
+        course: this.props.course
+    };
+
+    render() {
+        return (
+            <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
+                <figure
+                    className={`figure border rounded px-2 ${this.state.editing ? 'wbdv-highlight'
+                        : ''}`}>
+                    <span className="d-block mb-4 h-100 wbdv-clickable"
+                          onClick={() => this.props.history.push(`/course/${this.state.course._id}`)}>
+                        <img className="img-fluid" src={image}
+                             width="150" alt='course thumbnail'/>
+
+                    </span>
+                    <figcaption className="figure-caption text-left">
+                        <input value={this.state.course.title}
+                               onKeyPress={(event) => {
+                                   if (event.key === 'Enter') {
+                                       this.saveCourse();
+                                   }
+                               }}
+                               onChange={(e) =>
+                                   this.setState(
+                                       {
+                                           course: {
+                                               ...this.state.course,
+                                               title: e.target.value,
+                                               last_modified: this.props.formatDate(
+                                                   new Date(Date.now()))
+                                           }
+                                       })}
+                               onClick={ ()=>{
+                                   if(this.state.editing === false) {
+                                       this.props.history.push(`/course/${this.state.course._id}`);
+                                   }
+                               }}
+                               type='text' className={this.state.editing ? 'form-control'
+                            : 'form-control-plaintext wbdv-clickable wbdv-cut-text'}
+                               readOnly={!this.state.editing}/>
+                        <span>
+                            <div
+                                className='wbdv-cut-text'>Modified: {this.state.course.last_modified}</div>
+
+                            {!this.state.editing &&
+                            <button className="btn pl-0"
+                                    onClick={() => this.props.deleteCourse(this.props.course)}>
+                                <i className="fas fa-trash text-danger"/>
+                            </button>}
+                            {!this.state.editing &&
+                            <button className="btn pl-0"
+                                    onClick={() => this.setState({editing: true})}>
+                                <i className="fas fa-edit text-primary"/></button>
+                            }
+                            {this.state.editing &&
+                            <button className="btn pl-0"
+                                    onClick={this.saveCourse}>
+                                <i className="fas fa-check text-primary"/>
+                            </button>}
+                            </span>
+                    </figcaption>
+                </figure>
             </div>
-        </div>
-    </div>
+        );
+    }
+}
 
-export default CourseCard
+export default CourseCard;
