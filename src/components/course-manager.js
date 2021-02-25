@@ -1,10 +1,9 @@
 import React from "react";
 import CourseTable from "../components/course-table";
 import CourseGrid from "../components/course-grid";
-import {createCourse, deleteCourse, findAllCourses, updateCourse} from "../services/course-service"
+import {createCourse, deleteCourse, findAllCourses, findCourseById, updateCourse} from "../services/course-service"
 import CourseEditor from "../components/course-editor/course-editor";
 import {Link, Redirect, Route} from "react-router-dom";
-import createHistory from 'history/createBrowserHistory';
 
 
 class CourseManager extends React.Component {
@@ -20,8 +19,15 @@ class CourseManager extends React.Component {
             courses: allCourses
         })
     };
+
+
+    deleteCourse = async (deletedCourse) => {
+        await deleteCourse(deletedCourse._id);
+        await this.loadAllCourses();
+    };
+
     componentDidMount = async () => {
-        document.title = 'Course Manager | Whiteboard';
+        document.title = 'Whiteboard';
         await this.loadAllCourses();
     };
 
@@ -30,24 +36,10 @@ class CourseManager extends React.Component {
         await this.loadAllCourses();
     };
 
-    deleteCourse = async (deletedCourse) => {
-        await deleteCourse(deletedCourse._id);
-        await this.loadAllCourses();
-    };
-
-    toggle = () => {
-        this.setState((prevState) => {
-            if (prevState.layout === 'grid') {
-                return {
-                    layout: 'table'
-                }
-            } else {
-                return {
-                    layout: 'grid'
-                }
-            }
-        })
-    };
+    findCourseById = courseId => {
+        const course = findCourseById(courseId);
+        return course;
+    }
 
     addCourse = async (newCourseName) => {
         if (newCourseName !== '') {
@@ -78,14 +70,12 @@ class CourseManager extends React.Component {
         if (day.length < 2) {
             day = '0' + day;
         }
-
         return [month, day, year].join('/');
     };
 
     render() {
         return (
             <div>
-
                 <Route path={'/courses/table'}>
                     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
                         <div className="col-1" style={{color: 'white'}}>
