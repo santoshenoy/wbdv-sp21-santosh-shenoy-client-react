@@ -1,37 +1,37 @@
-import React from "react";
+import React, {useState} from "react";
 //import thumbnail from "./static/grid_thumbnail.svg";
 import image from "../images/bootstrap-logo.png";
 import {Link} from "react-router-dom";
 
-class CourseCard extends React.Component {
-    saveCourse = async () => {
-        await this.props.updateCourse(this.state.course._id, this.state.course);
-        this.setState({editing: false});
-    };
+const CourseCard = ({course, deleteCourse, updateCourse}) => {
+    const [editing, setEditing] = useState(false)
+    const [title, setTitle] = useState(course.title)
 
-    state = {
-        editing: false,
-        course: this.props.course
-    };
-
-    render() {
+    const saveTitle = () => {
+        setEditing(false)
+        const newCourse = {
+            ...course,
+            title: title
+        }
+        updateCourse(newCourse)
+    }
         return (
             <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
                 <figure
-                    className={`figure border rounded px-2 ${this.state.editing ? 'wbdv-highlight'
+                    className={`figure border rounded px-2 ${editing ? 'wbdv-highlight'
                         : ''}`}>
                     <span className="d-block mb-4 h-100 wbdv-clickable"
-                          onClick={() => this.props.history.push(`/course/${this.state.course._id}`)}>
+                          onClick={() => this.props.history.push(`/course/${course._id}`)}>
                         <img className="img-fluid" src={image}
                              width="150" alt='course thumbnail'/>
 
                     </span>
                     <figcaption className="figure-caption text-left">
-                        {!this.state.editing && <Link to="/courses/editor" className="">
+                        {!editing && <Link to={`/courses/grid/edit/${course._id}`} className="">
                             <i className="fa fa-book mr-3 text-primary"></i>
-                            {this.state.course.title}
+                            {course.title}
                         </Link> }
-                        {this.state.editing && <input value={this.state.course.title}
+                        {editing && <input value={course.title}
                                onKeyPress={(event) => {
                                    if (event.key === 'Enter') {
                                        this.saveCourse();
@@ -41,37 +41,36 @@ class CourseCard extends React.Component {
                                    this.setState(
                                        {
                                            course: {
-                                               ...this.state.course,
+                                               ...course,
                                                title: e.target.value,
                                                last_modified: this.props.formatDate(
                                                    new Date(Date.now()))
                                            }
                                        })}
                                onClick={ ()=>{
-                                   if(this.state.editing === false) {
-                                       this.props.history.push(`/course/${this.state.course._id}`);
+                                   if(editing === false) {
+                                       this.props.history.push(`/course/${course._id}`);
                                    }
                                }}
                                type='text' className={this.state.editing ? 'form-control'
                             : 'form-control-plaintext wbdv-clickable wbdv-cut-text'}
-                               readOnly={!this.state.editing}/>}
+                               readOnly={!editing}/>}
                         <span>
-                            <div
-                                className='wbdv-cut-text'>Modified: {this.state.course.last_modified}</div>
+                            <div></div>
 
-                            {!this.state.editing &&
+                            {!editing &&
                             <button className="btn pl-0"
-                                    onClick={() => this.props.deleteCourse(this.props.course)}>
+                                    onClick={() => deleteCourse(course)}>
                                 <i className="fas fa-trash text-danger"/>
                             </button>}
-                            {!this.state.editing &&
+                            {!editing &&
                             <button className="btn pl-0"
                                     onClick={() => this.setState({editing: true})}>
                                 <i className="fas fa-edit text-primary"/></button>
                             }
-                            {this.state.editing &&
+                            {editing &&
                             <button className="btn pl-0"
-                                    onClick={this.saveCourse}>
+                                    onClick={saveTitle()}>
                                 <i className="fas fa-check text-primary"/>
                             </button>}
                             </span>
@@ -79,7 +78,7 @@ class CourseCard extends React.Component {
                 </figure>
             </div>
         );
-    }
+
 }
 
 export default CourseCard;

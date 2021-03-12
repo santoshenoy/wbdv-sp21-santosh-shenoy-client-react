@@ -1,62 +1,43 @@
-import React from "react";
+import React, {useState} from 'react'
 import CourseTable from "../components/course-table";
 import CourseGrid from "../components/course-grid";
-import {createCourse, deleteCourse, findAllCourses, findCourseById, updateCourse} from "../services/course-service"
-import CourseEditor from "../components/course-editor/course-editor";
-import {Link, Redirect, Route} from "react-router-dom";
-
+import CourseEditor from "./course-editor/course-editor";
+import {Link, Route} from "react-router-dom";
+import CourseService, {findAllCourses} from "../services/course-service"
 
 class CourseManager extends React.Component {
     state = {
-        layout: 'table',
-        newCourseTitle: '',
-        courses: []
-    };
-
-    loadAllCourses = async () => {
-        const allCourses = await findAllCourses();
-        this.setState({
-            courses: allCourses
-        })
-    };
-
-
-    deleteCourse = async (deletedCourse) => {
-        await deleteCourse(deletedCourse._id);
-        await this.loadAllCourses();
-    };
-
-    componentDidMount = async () => {
-        document.title = 'Whiteboard';
-        await this.loadAllCourses();
-    };
-
-    updateCourse = async (courseId, course) => {
-        await updateCourse(courseId, course);
-        await this.loadAllCourses();
-    };
-
-    findCourseById = courseId => {
-        const course = findCourseById(courseId);
-        return course;
+        courses: [],
+        courseTitle: ''
     }
 
-    addCourse = async (newCourseName) => {
-        if (newCourseName !== '') {
-            const newCourse = {
-                title: newCourseName,
-                last_modified: this.formatDate(new Date(Date.now())),
-                owned_by: 'me'
-            };
-            await createCourse(newCourse);
-            await this.loadAllCourses();
-        }
-    };
+    setTitle(title) {
+        this.setState(
+            {courseTitle: title}
+        )
+    }
 
-    updateInput = (e) =>
-        this.setState({
-            newCourseTitle: e.target.value
-        })
+    componentDidMount = () =>
+        CourseService.findAllCourses()
+            .then(courses => this.setState({courses}))
+
+    addCourse = () => {
+        const newCourse = {
+            title: this.state.courseTitle,
+            owned_by: "me",
+            last_modified: this.formatDate(new Date(Date.now()))
+        }
+        this.setTitle('');
+        CourseService.createCourse(newCourse)
+            .then(course => this.setState(
+                (prevState) => ({
+                    ...prevState,
+                    courses: [
+                        ...prevState.courses,
+                        course
+                    ]
+                })))
+    }
 
     formatDate = (date) => {
         var d = new Date(date),
@@ -73,26 +54,42 @@ class CourseManager extends React.Component {
         return [month, day, year].join('/');
     };
 
+    updateCourse = (course) => {
+        CourseService.updateCourse(course._id, course)
+            .then(status => this.setState((prevState) => ({
+                ...prevState,
+                courses: prevState.courses.map(
+                    (c) => c._id === course._id ? course : c)
+            })))
+    }
+
+    deleteCourse = (courseToDelete) => {
+        CourseService.deleteCourse(courseToDelete._id)
+            .then(status => {
+                this.setState((prevState) => ({
+                    ...prevState,
+                    courses: prevState.courses.filter
+                    (course => course !== courseToDelete)
+                }))
+            })
+    }
+
     render() {
         return (
             <div>
-                <Route path={'/courses/table'}>
+                <Route path="/courses/table" exact={true}>
                     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
                         <div className="col-1" style={{color: 'white'}}>
                             <i className="fas fa-bars fa-2x"></i>
                         </div>
                         &nbsp; &nbsp; &nbsp;
                         <a className="navbar-brand" href="#">Course Manager</a>
+
                         <div>
                             <input className="form-control mr-sm-2" type="text" placeholder="New Course Title" className=" form-control mr-sm-2 wbdv-field wbdv-new-course"
-                                   onChange={this.updateInput}
-                                   value={this.state.newCourseTitle}
-                                   onKeyPress={(event) => {
-                                       if (event.key === 'Enter') {
-                                           this.props.add(this.state.newCourseTitle);
-                                           this.state.newCourseTitle = ''
-                                       }
-                                   }}/>
+                                   onChange={(event) => this.setTitle(event.target.value)}
+                                   placeholder="New Course Title"
+                                   value={this.state.courseTitle}/>
                         </div>
                         <div className="col-1" style={{color: '#ff0000'}}>
                             <button className="btn btn-success ml-2" type="submit" onClick={() => {
@@ -101,25 +98,25 @@ class CourseManager extends React.Component {
                             }}>Add</button>
                         </div>
                     </nav>
-                    <CourseTable courses={this.state.courses} updateCourse={this.updateCourse} deleteCourse={this.deleteCourse} formatDate={this.formatDate}/>
+                    <CourseTable
+                        updateCourse={this.updateCourse}
+                        deleteCourse={this.deleteCourse}
+                        courses={this.state.courses}/>
                 </Route>
-                <Route path={'/courses/grid'}>
+
+                <Route path="/courses/grid" exact={true}>
                     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
                         <div className="col-1" style={{color: 'white'}}>
                             <i className="fas fa-bars fa-2x"></i>
                         </div>
                         &nbsp; &nbsp; &nbsp;
                         <a className="navbar-brand" href="#">Course Manager</a>
+
                         <div>
                             <input className="form-control mr-sm-2" type="text" placeholder="New Course Title" className=" form-control mr-sm-2 wbdv-field wbdv-new-course"
-                                   onChange={this.updateInput}
-                                   value={this.state.newCourseTitle}
-                                   onKeyPress={(event) => {
-                                       if (event.key === 'Enter') {
-                                           this.props.add(this.state.newCourseTitle);
-                                           this.state.newCourseTitle = ''
-                                       }
-                                   }}/>
+                                   onChange={(event) => this.setTitle(event.target.value)}
+                                   placeholder="New Course Title"
+                                   value={this.state.courseTitle}/>
                         </div>
                         <div className="col-1" style={{color: '#ff0000'}}>
                             <button className="btn btn-success ml-2" type="submit" onClick={() => {
@@ -147,23 +144,31 @@ class CourseManager extends React.Component {
                         </button>
                         </div>
                     </div>
-                    <CourseGrid courses={this.state.courses} updateCourse={this.updateCourse} deleteCourse={this.deleteCourse} formatDate={this.formatDate}/>
+                    <CourseGrid
+                        updateCourse={this.updateCourse}
+                        deleteCourse={this.deleteCourse}
+                        courses={this.state.courses}/>
                 </Route>
 
-                <div class="float-right"><button type="button"
-                        class="btn btn-danger btn-circle btn-xl"
-                                                 onClick={() => {
-                                                     this.addCourse(this.state.newCourseTitle)
-                                                     this.state.newCourseTitle = ''
-                                                 }}>
-                    <i className="fa fa-plus" aria-hidden="true"></i>
-                </button></div>
-
-                <Route path={'/courses/editor'} render={(props) => <CourseEditor {...props}/>}>
+                <Route path={[
+                    "/courses/:layout/edit/:courseId",
+                    "/courses/:layout/edit/:courseId/:moduleId",
+                    "/courses/:layout/edit/:courseId/:moduleId/:lessonId",
+                    "/courses/:layout/edit/:courseId/:moduleId/:lessonId/:topicId"]}
+                       exact={true}
+                       render={(props) => <CourseEditor {...props}/>}>
                 </Route>
+                <div className="float-right">
+                    <button type="button"
+                            className="btn btn-danger btn-circle btn-xl"
+                            onClick={this.addCourse}>
+                        <i className="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
         )
     }
 }
 
 export default CourseManager
+

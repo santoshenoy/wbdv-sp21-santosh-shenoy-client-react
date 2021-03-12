@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 
-class CourseRow extends React.Component {
+/*class CourseRow extends React.Component {
     saveCourse = async () => {
         await this.props.updateCourse(this.state.course._id, this.state.course);
         this.setState({editing: false});
@@ -10,76 +10,72 @@ class CourseRow extends React.Component {
     state = {
         editing: false,
         course: this.props.course
-    };
+    };*/
+const CourseRow = (
+    {
+        deleteCourse,
+        updateCourse,
+        course,
+        last_modified,
+        title,
+        owned_by
+    }) => {
+    const [editing, setEditing] = useState(false)
+    const [newTitle, setNewTitle] = useState(title)
 
-    render() {
+    const saveCourse = () => {
+        setEditing(false)
+        const newCourse = {
+            ...course,
+            title: newTitle
+        }
+        updateCourse(newCourse)
+    }
         return (
-            <tr className={`wbdv-row wbdv-course ${this.state.editing ? 'wbdv-highlight' : ''}`}>
+            <tr className={`wbdv-row wbdv-course`}>
                 <td className="align-middle wbdv-row wbdv-title">
-                    {!this.state.editing && <Link to="/courses/editor" className="">
+                    {!editing && <Link to={`/courses/table/edit/${course._id}`} className="">
                         <i className="fa fa-book mr-3 text-primary"></i>
-                        {this.state.course.title}
+                        {title}
                     </Link> }
-                    {this.state.editing && <input value={this.state.course.title}
-                           onKeyPress={(event) => {
-                               if (event.key === 'Enter') {
-                                   this.saveCourse();
-                               }
-                           }}
-                           onChange={(e) =>
-                               this.setState(
-                                   {
-                                       course: {
-                                           ...this.state.course,
-                                           title: e.target.value,
-                                           last_modified: this.props.formatDate(
-                                               new Date(Date.now()))
-                                       }
-                                   })}
-
-                           onClick={ ()=>{
-                               if(this.state.editing === false) {
-                                   this.props.history.push(`/course/${this.state.course._id}`);
-                               }
-                           }}
-                           type='text' className={this.state.editing ? 'form-control'
-                        : 'form-control-plaintext wbdv-clickable'}
-                           readOnly={!this.state.editing}/> }
+                    {editing && <input
+                        onChange={(event) => setNewTitle(event.target.value)}
+                        value={newTitle}
+                        className="form-control"/> }
                 </td>
 
                 <td className="align-middle d-none d-md-table-cell wbdv-row wbdv-owner">
-                    {this.state.course.owned_by}
+                    {owned_by}
                 </td>
                 <td className="align-middle d-none d-md-table-cell wbdv-row wbdv-modified-date">
-                    {this.state.course.last_modified}
+                    {last_modified}
                 </td>
                 <td className="align-middle wbdv-row wbdv-button wbdv-delete">
-                    {!this.state.editing &&
+                    {!editing &&
                     <button className="btn"
-                            onClick={() => this.props.deleteCourse(this.props.course)}>
+                            onClick={() => deleteCourse(course)}>
                         <i className="fas fa-trash text-danger"/>
                     </button>}
                 </td>
 
-                {!this.state.editing &&
+                {!editing &&
                 <td className="align-middle wbdv-row wbdv-button wbdv-edit">
                     <button className="btn"
-                            onClick={() => this.setState({editing: true})}>
+                            onClick={() => setEditing(true)}>
                         <i className="fas fa-edit text-primary"/></button>
                 </td>
                 }
 
-                {this.state.editing &&
+                {editing &&
                 <td className="align-middle wbdv-row wbdv-button">
                     <button className="btn"
-                            onClick={this.saveCourse}>
+                            onClick={saveCourse}>
                         <i className="fas fa-check text-primary"/>
                     </button>
                 </td>
                 }
             </tr>
         )
-    }
 }
 
 export default CourseRow
