@@ -1,0 +1,31 @@
+.editor-container {
+    margin-top: 10px;
+}
+
+.my-fa-plus {
+    padding-left: 5px;
+    color: steelblue;
+}
+
+.my-fa-check {
+    padding-left: 5px;
+    color: orange;
+}
+
+.my-fa-edit {
+    padding-left: 10px;
+    padding-top: 5px;
+    color: orange;
+}
+
+.my-fa-times {
+    padding-left: 5px;
+}
+
+.my-title {
+    color: steelblue;
+}
+
+.list-group-item.active a{
+    color:white;
+}

@@ -97,11 +97,19 @@ class CourseManager extends React.Component {
                                 this.state.newCourseTitle = ''
                             }}>Add</button>
                         </div>
+
                     </nav>
                     <CourseTable
                         updateCourse={this.updateCourse}
                         deleteCourse={this.deleteCourse}
                         courses={this.state.courses}/>
+                    <div className="float-right">
+                        <button type="button"
+                                className="btn btn-danger btn-circle btn-xl"
+                                onClick={this.addCourse}>
+                            <i className="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </Route>
 
                 <Route path="/courses/grid" exact={true}>
@@ -148,6 +156,13 @@ class CourseManager extends React.Component {
                         updateCourse={this.updateCourse}
                         deleteCourse={this.deleteCourse}
                         courses={this.state.courses}/>
+                    <div className="float-right">
+                        <button type="button"
+                                className="btn btn-danger btn-circle btn-xl"
+                                onClick={this.addCourse}>
+                            <i className="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </Route>
 
                 <Route path={[
@@ -158,13 +173,7 @@ class CourseManager extends React.Component {
                        exact={true}
                        render={(props) => <CourseEditor {...props}/>}>
                 </Route>
-                <div className="float-right">
-                    <button type="button"
-                            className="btn btn-danger btn-circle btn-xl"
-                            onClick={this.addCourse}>
-                        <i className="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                </div>
+
             </div>
         )
     }

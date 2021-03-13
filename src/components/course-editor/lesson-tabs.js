@@ -3,14 +3,14 @@ import {connect} from "react-redux";
 import EditableItem from "../editable-item";
 import {useParams} from "react-router-dom";
 import lessonService from '../../services/lesson-service'
-import "../../index.css"
+import "./course-editor.css"
 
 const LessonTabs = (
     {
-        lessons = [],
         findLessonsForModule,
         createLesson,
         updateLesson,
+        lessons = [],
         deleteLesson
     }) => {
     const {layout, courseId, moduleId, lessonId} = useParams();
@@ -47,13 +47,7 @@ const stpm = (state) => ({
 })
 
 const dtpm = (dispatch) => ({
-    findLessonsForModule: (moduleId) => {
-        lessonService.findLessonsForModule(moduleId)
-            .then(lessons => dispatch({
-                type: "FIND_LESSONS_FOR_MODULE",
-                lessons
-            }))
-    },
+
     createLesson: (moduleId) => {
         lessonService
             .createLesson(moduleId, {title: "New Lesson"})
@@ -73,7 +67,14 @@ const dtpm = (dispatch) => ({
             .then(status => dispatch({
                 type: "UPDATE_LESSON",
                 lesson
+            })),
+    findLessonsForModule: (moduleId) => {
+        lessonService.findLessonsForModule(moduleId)
+            .then(lessons => dispatch({
+                type: "FIND_LESSONS_FOR_MODULE",
+                lessons
             }))
+    }
 })
 
 export default connect(stpm, dtpm)(LessonTabs)

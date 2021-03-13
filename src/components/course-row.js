@@ -1,16 +1,6 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 
-/*class CourseRow extends React.Component {
-    saveCourse = async () => {
-        await this.props.updateCourse(this.state.course._id, this.state.course);
-        this.setState({editing: false});
-    };
-
-    state = {
-        editing: false,
-        course: this.props.course
-    };*/
 const CourseRow = (
     {
         deleteCourse,

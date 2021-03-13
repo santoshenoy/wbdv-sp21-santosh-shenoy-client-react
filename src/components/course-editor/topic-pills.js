@@ -3,14 +3,14 @@ import {connect} from 'react-redux'
 import EditableItem from "../editable-item";
 import {useParams} from "react-router-dom";
 import topicService from "../../services/topic-service"
-import "../../index.css"
+import "./course-editor.css"
 
 const TopicPills = (
     {
-        topics = [],
         createTopic,
         deleteTopic,
         updateTopic,
+        topics = [],
         findTopicsForLesson
     }) => {
     const {layout, courseId, moduleId, lessonId, topicId} = useParams();
@@ -79,5 +79,4 @@ const dtpm = (dispatch) => {
     }
 }
 
-export default connect(stpm, dtpm)
-(TopicPills)
+export default connect(stpm, dtpm)(TopicPills)

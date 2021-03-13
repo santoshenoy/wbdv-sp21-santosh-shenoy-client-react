@@ -11,7 +11,7 @@ const EditableItem = (
         active
     }) => {
     const [editing, setEditing] = useState(false)
-    const [cachedItem, setCahedItem] = useState(item)
+    const [cachedItem, setCachedItem] = useState(item)
     return (
         <>
             {
@@ -24,15 +24,14 @@ const EditableItem = (
                        className="fas fa-edit float-right my-fa-edit"></i>
                 </>
             }
-
             {
                 editing &&
                 <>
                     <input
-                        onChange={(e) =>
-                            setCahedItem({
+                        onChange={(event) =>
+                            setCachedItem({
                                 ...cachedItem,
-                                title: e.target.value
+                                title: event.target.value
                             })}
                         value={cachedItem.title}/>
                     <i onClick={() => {
