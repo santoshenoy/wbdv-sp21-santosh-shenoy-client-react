@@ -80,5 +80,4 @@ const dtpm = (dispatch) => {
     }
 }
 
-export default connect(stpm, dtpm)
-(ModuleList)
+export default connect(stpm, dtpm)(ModuleList)
