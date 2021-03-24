@@ -1,4 +1,4 @@
-const URL = process.env.REACT_APP_WIDGET_URL
+const URL = "https://santoshshenoytirthahalli.herokuapp.com/api";
 
 export const createWidget = (topicId, widget) =>
     fetch(`${URL}/topics/${topicId}/widgets`, {
