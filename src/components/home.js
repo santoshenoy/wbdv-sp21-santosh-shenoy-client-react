@@ -11,5 +11,8 @@ export default () =>
             <Link to="/courses/grid" className="list-group-item">
                 Courses Grid
             </Link>
+            <Link to="/courses/test" className="list-group-item">
+                Test
+            </Link>
         </div>
     </>
