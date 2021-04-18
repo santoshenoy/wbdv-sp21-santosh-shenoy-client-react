@@ -1,15 +1,12 @@
 import React, {useState} from 'react'
-//import './quizzes.style.client.css'
 
 const MultipleChoiceQuestion = ({question}) => {
 
-    const [currAnswer, setCurrAnswer] = useState("")
+    const [currentAnswer, setCurrentAnswer] = useState("")
     const [isCorrectAnswer, setIsCorrectAnswer] = useState(null)
     const choices = question.choices
 
     const correctAnswer = question.correct
-
-    console.log(`${correctAnswer}, ${currAnswer}, ${isCorrectAnswer}`)
 
     return (
         <div className="jo-quiz-question-spacing">
@@ -33,13 +30,13 @@ const MultipleChoiceQuestion = ({question}) => {
                                 {
                                     `list-group-item 
                                     ${isCorrectAnswer !== null && choice === correctAnswer ? "list-group-item-success": ""}
-                                    ${isCorrectAnswer !== null && choice === currAnswer && choice !== correctAnswer ? "list-group-item-danger" : ""}`
+                                    ${isCorrectAnswer !== null && choice === currentAnswer && choice !== correctAnswer ? "list-group-item-danger" : ""}`
                                 }>
                             <input type="radio"
                                    name={question._id}
                                    id={`${question._id}_${ndx}`}
                                    onChange={() => {
-                                       setCurrAnswer(choice)
+                                       setCurrentAnswer(choice)
                                        setIsCorrectAnswer(null)
                                    }}/>
                             <label for={`${question._id}_${ndx}`}>{choice}</label>
@@ -49,7 +46,7 @@ const MultipleChoiceQuestion = ({question}) => {
                                     <i className="fas fa-check"></i>
                                 }
                                 {
-                                    isCorrectAnswer !== null && choice === currAnswer && choice !== correctAnswer &&
+                                    isCorrectAnswer !== null && choice === currentAnswer && choice !== correctAnswer &&
                                     <i className="fas fa-times"></i>
                                 }
                             </span>
@@ -58,9 +55,9 @@ const MultipleChoiceQuestion = ({question}) => {
                 }
             </ul>
             <br/>
-            <p>Your answer: {currAnswer}</p>
+            <p>Your answer: {currentAnswer}</p>
             <button className="btn btn-success"
-                    onClick={() => {currAnswer === correctAnswer ? setIsCorrectAnswer(true) : setIsCorrectAnswer(false)}}>
+                    onClick={() => {currentAnswer === correctAnswer ? setIsCorrectAnswer(true) : setIsCorrectAnswer(false)}}>
                 Grade
             </button>
         </div>

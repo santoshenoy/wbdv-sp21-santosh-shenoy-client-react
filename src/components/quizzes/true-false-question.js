@@ -8,7 +8,6 @@ const TrueFalseQuestion = ({question}) => {
 
     const correctAnswer = question.correct
 
-    // To avoid code duplication, create an array of "choices"
     const choices = ["true", "false"]
 
     return (
