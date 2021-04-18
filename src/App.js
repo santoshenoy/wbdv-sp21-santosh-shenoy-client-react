@@ -1,5 +1,7 @@
 import CourseManager from "./components/course-manager";
 import {BrowserRouter, Route} from "react-router-dom";
+import Quiz from "./components/quizzes/quiz";
+import Quizzes from "./components/quizzes/quizzes";
 import Home from "./components/home"
 
 function App() {
@@ -12,6 +14,7 @@ function App() {
                 <Route path="/courses">
                     <CourseManager/>
                 </Route>
+
             </div>
         </BrowserRouter>
     );

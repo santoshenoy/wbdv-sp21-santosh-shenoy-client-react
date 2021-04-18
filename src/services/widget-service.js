@@ -1,4 +1,4 @@
-const URL = "https://santoshshenoytirthahalli.herokuapp.com/api";
+/*const URL = "https://santoshshenoytirthahalli.herokuapp.com/api";
 
 export const createWidget = (topicId, widget) =>
     fetch(`${URL}/topics/${topicId}/widgets`, {
@@ -40,4 +40,4 @@ const api = {
     findWidgetsForTopic
 };
 
-export default api;
+export default api;*/

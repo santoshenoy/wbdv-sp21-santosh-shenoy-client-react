@@ -4,6 +4,8 @@ import CourseGrid from "../components/course-grid";
 import CourseEditor from "./course-editor/course-editor";
 import {Link, Route} from "react-router-dom";
 import CourseService, {findAllCourses} from "../services/course-service"
+import QuizzesList from "./quizzes/quizzes";
+import Quiz from "./quizzes/quiz";
 
 class CourseManager extends React.Component {
     state = {
@@ -174,6 +176,13 @@ class CourseManager extends React.Component {
                     "/courses/:layout/edit/:courseId/modules/:moduleId/lessons/:lessonId/topics/:topicId/widgets/:widgetId"]}
                        exact={true}
                        render={(props) => <CourseEditor {...props}/>}>
+                </Route>
+
+                <Route path="/courses/:courseId/quizzes" exact={true}>
+                    <QuizzesList/>
+                </Route>
+                <Route path="/courses/:courseId/quizzes/:quizId" exact={true}>
+                    <Quiz/>
                 </Route>
 
             </div>

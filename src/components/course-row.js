@@ -34,6 +34,12 @@ const CourseRow = (
                         className="form-control"/> }
                 </td>
 
+                <td>
+                    <Link to={`/courses/${course._id}/quizzes`}>
+                        Quizzes
+                    </Link>
+                </td>
+
                 <td className="align-middle d-none d-md-table-cell wbdv-row wbdv-owner">
                     {owned_by}
                 </td>
