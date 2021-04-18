@@ -19,6 +19,9 @@ export default class CourseTable
                                 <tr>
                                     <th scope="col" className="wbdv-header wbdv-title">Title</th>
                                     <th className="d-none d-md-table-cell wbdv-header wbdv-owner"
+                                        scope="col">
+                                    </th>
+                                    <th className="d-none d-md-table-cell wbdv-header wbdv-owner"
                                         scope="col">Owned
                                         By
                                     </th>

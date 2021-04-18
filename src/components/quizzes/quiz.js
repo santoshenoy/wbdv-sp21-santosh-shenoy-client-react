@@ -7,7 +7,6 @@ import MultipleChoiceQuestion from "./multiple-choice-question";
 
 
 const Quiz = () => {
-    // Get the quiz ID from the URL
     const {quizId} = useParams()
 
     const [quizTitle, setQuizTitle] = useState("")
