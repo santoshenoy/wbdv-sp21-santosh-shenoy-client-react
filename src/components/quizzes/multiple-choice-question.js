@@ -56,10 +56,6 @@ const MultipleChoiceQuestion = ({question}) => {
             </ul>
             <br/>
             <p>Your answer: {currentAnswer}</p>
-            <button className="btn btn-success"
-                    onClick={() => {currentAnswer === correctAnswer ? setIsCorrectAnswer(true) : setIsCorrectAnswer(false)}}>
-                Grade
-            </button>
         </div>
     )
 }

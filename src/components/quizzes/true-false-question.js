@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-//import './quizzes.style.client.css'
 
 const TrueFalseQuestion = ({question}) => {
 
@@ -59,10 +58,6 @@ const TrueFalseQuestion = ({question}) => {
             </ul>
             <br/>
             <p>Your answer: {currAnswer}</p>
-            <button className={"btn btn-success"}
-                    onClick={() => {currAnswer === correctAnswer ? setIsCorrectAnswer(true) : setIsCorrectAnswer(false)}}>
-                Grade
-            </button>
         </div>
     )
 }
